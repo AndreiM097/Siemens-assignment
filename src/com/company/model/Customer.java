@@ -4,6 +4,7 @@ import com.company.util.PropertiesUtil;
 
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -15,10 +16,13 @@ public class Customer {
     private int numberOfPeople;
     private LocalTime arrivedAt;
     private LocalTime greetTimeoutMinutes;
+    private Boolean hasBeenNotified;
     private LocalTime joinedTableAt;
     private Table table;
     private LocalTime leavingAt;
     private Properties properties;
+    private Restaurant restaurant;
+
 
     public Customer(String honorific, String name, int numberOfCustomers) throws IOException {
         PropertiesUtil propertiesUtil = new PropertiesUtil();
@@ -27,7 +31,9 @@ public class Customer {
         this.honorific = honorific;
         this.name = name;
         this.numberOfPeople = numberOfCustomers;
+        this.hasBeenNotified = false;
 
+        restaurant = new Restaurant();
         arrivedAt = LocalTime.now();
         greetTimeoutMinutes = arrivedAt.plusMinutes(parseInt(properties.getProperty("restaurant.greet.timeout.minutes")));
     }
@@ -40,6 +46,7 @@ public class Customer {
         System.out.println(">>>arrive ");
         String honorific = scanner.nextLine();
         String name = scanner.nextLine();
+
         int numberOfPeople = scanner.nextInt();
 
         Customer customer = null;
@@ -90,6 +97,14 @@ public class Customer {
 
     public void setGreetTimeoutMinutes(LocalTime greetTimeoutMinutes) {
         this.greetTimeoutMinutes = greetTimeoutMinutes;
+    }
+
+    public Boolean getHasBeenNotified() {
+        return hasBeenNotified;
+    }
+
+    public void setHasBeenNotified(Boolean hasBeenNotified) {
+        this.hasBeenNotified = hasBeenNotified;
     }
 
     public LocalTime getJoinedTableAt() {
